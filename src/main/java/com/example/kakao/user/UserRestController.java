@@ -14,7 +14,6 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/auth")
 public class UserRestController {
 
     private final UserService userService;
