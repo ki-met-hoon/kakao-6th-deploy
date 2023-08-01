@@ -40,7 +40,7 @@ public class UserRestControllerTest extends MyRestDoc {
         String requestBody = om.writeValueAsString(requestDTO);
 
         ResultActions resultActions = mvc.perform(
-                post("/auth/join")
+                post("/join")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -64,7 +64,7 @@ public class UserRestControllerTest extends MyRestDoc {
         String requestBody = om.writeValueAsString(loginDTO);
 
         ResultActions resultActions = mvc.perform(
-                post("/auth/login")
+                post("/login")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -86,7 +86,7 @@ public class UserRestControllerTest extends MyRestDoc {
         String requestBody = om.writeValueAsString(emailCheckDTO);
 
         ResultActions resultActions = mvc.perform(
-                post("/auth/check")
+                post("/check")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -108,7 +108,7 @@ public class UserRestControllerTest extends MyRestDoc {
         String requestBody = om.writeValueAsString(emailCheckDTO);
 
         ResultActions resultActions = mvc.perform(
-                post("/auth/check")
+                post("/check")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -131,7 +131,7 @@ public class UserRestControllerTest extends MyRestDoc {
         String requestBody = om.writeValueAsString(loginDTO);
 
         ResultActions resultActions = mvc.perform(
-                post("/auth/login")
+                post("/login")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -154,7 +154,7 @@ public class UserRestControllerTest extends MyRestDoc {
         String requestBody = om.writeValueAsString(loginDTO);
 
         ResultActions resultActions = mvc.perform(
-                post("/auth/login")
+                post("/login")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -178,7 +178,7 @@ public class UserRestControllerTest extends MyRestDoc {
         String requestBody = om.writeValueAsString(requestDTO);
 
         ResultActions resultActions = mvc.perform(
-                post("/auth/join")
+                post("/join")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -202,7 +202,7 @@ public class UserRestControllerTest extends MyRestDoc {
         String requestBody = om.writeValueAsString(requestDTO);
 
         ResultActions resultActions = mvc.perform(
-                post("/auth/join")
+                post("/join")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -226,7 +226,7 @@ public class UserRestControllerTest extends MyRestDoc {
         String requestBody = om.writeValueAsString(requestDTO);
 
         ResultActions resultActions = mvc.perform(
-                post("/auth/join")
+                post("/join")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -250,7 +250,7 @@ public class UserRestControllerTest extends MyRestDoc {
         String requestBody = om.writeValueAsString(requestDTO);
 
         ResultActions resultActions = mvc.perform(
-                post("/auth/join")
+                post("/join")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -273,7 +273,7 @@ public class UserRestControllerTest extends MyRestDoc {
         String requestBody = om.writeValueAsString(loginDTO);
 
         ResultActions resultActions = mvc.perform(
-                post("/auth/login")
+                post("/login")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -297,7 +297,7 @@ public class UserRestControllerTest extends MyRestDoc {
         String requestBody = om.writeValueAsString(requestDTO);
 
         ResultActions resultActions = mvc.perform(
-                post("/auth/login")
+                post("/login")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -321,7 +321,7 @@ public class UserRestControllerTest extends MyRestDoc {
         String requestBody = om.writeValueAsString(requestDTO);
 
         ResultActions resultActions = mvc.perform(
-                post("/auth/login")
+                post("/login")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -345,7 +345,7 @@ public class UserRestControllerTest extends MyRestDoc {
         String requestBody = om.writeValueAsString(requestDTO);
 
         ResultActions resultActions = mvc.perform(
-                post("/auth/check")
+                post("/check")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         );
