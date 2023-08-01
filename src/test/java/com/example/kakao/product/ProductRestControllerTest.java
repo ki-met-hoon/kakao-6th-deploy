@@ -1,6 +1,8 @@
 package com.example.kakao.product;
 
 import com.example.kakao.MyRestDoc;
+import org.hibernate.query.criteria.internal.expression.function.AggregationFunction;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class ProductRestControllerTest extends MyRestDoc {
 
+    @DisplayName("전체 상품 조회 테스트")
     @Test
     public void findAll_test() throws Exception {
         // given teardown.sql
@@ -43,6 +46,7 @@ public class ProductRestControllerTest extends MyRestDoc {
         resultActions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
+    @DisplayName("개별 상품 조회 테스트")
     @Test
     public void findById_test() throws Exception {
         // given teardown.sql
@@ -65,5 +69,26 @@ public class ProductRestControllerTest extends MyRestDoc {
         resultActions.andExpect(jsonPath("$.response.image").value("/images/1.jpg"));
         resultActions.andExpect(jsonPath("$.response.price").value(1000));
         resultActions.andDo(MockMvcResultHandlers.print()).andDo(document);
+    }
+
+    @DisplayName("개별 상품 상세 조회 실패 테스트")
+    @Test
+    public void findById_fail_test() throws Exception {
+        //given
+        int id = Integer.MAX_VALUE;
+
+        //when
+        ResultActions resultActions = mvc.perform(
+                get("/products/" + id)
+        );
+
+        //console
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : "+responseBody);
+
+        resultActions.andExpect(jsonPath("$.success").value("false"))
+                .andExpect(jsonPath("$.response").isEmpty())
+                .andExpect(jsonPath("$.error.message").value("해당 상품을 찾을 수 없습니다 : " + id))
+                .andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 }
