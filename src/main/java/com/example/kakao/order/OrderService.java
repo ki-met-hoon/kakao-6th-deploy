@@ -22,9 +22,10 @@ public class OrderService {
     private final CartJPARepository cartJPARepository;
     private final ItemJPARepository itemJPARepository;
 
+    @Transactional
     public OrderResponse.FindByIdDTO saveOrder(User sessionUser){
         List<Cart> cartList = cartJPARepository.findAllByUserId(sessionUser.getId());
-        validateCartList(cartList);
+        checkForEmptyCartList(cartList);
 
         Order order = Order.builder().user(sessionUser).build();
 
@@ -71,7 +72,7 @@ public class OrderService {
                 .build();
     }
 
-    private void validateCartList(List<Cart> cartList){
+    private void checkForEmptyCartList(List<Cart> cartList){
         if(cartList.isEmpty()){
             throw new Exception400("장바구니의 상품을 조회할 수 없습니다");
         }

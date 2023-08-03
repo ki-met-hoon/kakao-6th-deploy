@@ -23,8 +23,8 @@ public class CartService {
     private final CartJPARepository cartJPARepository;
     private final OptionJPARepository optionJPARepository;
 
-    public void AddOrUpdateCart(List<CartRequest.SaveDTO> requestDTOs, User sessionUser) {
-        throwSameOptionIdException(requestDTOs);
+    public void addOrUpdateCart(List<CartRequest.SaveDTO> requestDTOs, User sessionUser) {
+        checkForSameOptionIds(requestDTOs);
 
         for(CartRequest.SaveDTO requestDTO : requestDTOs){
             Cart cart = cartJPARepository.findByOptionIdAndUserId(requestDTO.getOptionId(), sessionUser.getId());
@@ -32,7 +32,7 @@ public class CartService {
         }
     }
 
-    public void verifyAddOrUpdateCart(CartRequest.SaveDTO requestDTO, User sessionUser, Cart cart){
+    private void verifyAddOrUpdateCart(CartRequest.SaveDTO requestDTO, User sessionUser, Cart cart){
         if(cart != null){
             updateCartList(requestDTO, cart);
         }else {
@@ -40,13 +40,13 @@ public class CartService {
         }
     }
 
-    public void updateCartList(CartRequest.SaveDTO requestDTO, Cart cart){
+    private void updateCartList(CartRequest.SaveDTO requestDTO, Cart cart){
         int price = cart.getOption().getPrice() * (requestDTO.getQuantity() + cart.getQuantity());
         int quantity = requestDTO.getQuantity() + cart.getQuantity();
         cart.update(quantity, price);
     }
 
-    public void addCartList(CartRequest.SaveDTO requestDTO, User sessionUser){
+    private void addCartList(CartRequest.SaveDTO requestDTO, User sessionUser){
         int optionId = requestDTO.getOptionId();
         int quantity = requestDTO.getQuantity();
         Option optionPS = optionJPARepository.findById(optionId)
@@ -66,9 +66,9 @@ public class CartService {
     public CartResponse.UpdateDTO updateCart(List<CartRequest.UpdateDTO> requestDTOs, User user) {
         List<Cart> cartList = cartJPARepository.findAllByUserId(user.getId());
 
-        throwEmptyCartException(cartList);
+        checkForEmptyCart(cartList);
 
-        throwDuplicateCartIdException(requestDTOs);
+        checkForDuplicateCartIds(requestDTOs);
 
         Map<Integer, Cart> cartMap = cartList.stream()
                 .collect(Collectors.toMap(Cart::getId, cart -> cart));
@@ -85,11 +85,11 @@ public class CartService {
         if (cart != null) {
             cart.update(updateDTO.getQuantity(), cart.getOption().getPrice() * updateDTO.getQuantity());
         } else {
-            throwInvalidCartId(false);
+            checkForInvalidCartId(false);
         }
     }
 
-    private void throwSameOptionIdException(List<CartRequest.SaveDTO> requestDTOs){
+    private void checkForSameOptionIds(List<CartRequest.SaveDTO> requestDTOs){
         // 1. 동일한 옵션이 들어오면 예외처리
         // [ { optionId:1, quantity:5 }, { optionId:1, quantity:10 } ]
         Set<Integer> uniqueRequestDTOS = new HashSet<>();
@@ -100,14 +100,14 @@ public class CartService {
         }
     }
 
-    private void throwEmptyCartException(List<Cart> cartList){
+    private void checkForEmptyCart(List<Cart> cartList){
         // 1. 유저 장바구니에 아무것도 없으면 예외처리
         if(cartList.isEmpty()){
             throw new Exception400("장바구니에 상품이 없습니다.");
         }
     }
 
-    private void throwDuplicateCartIdException(List<CartRequest.UpdateDTO> requestDTOs){
+    private void checkForDuplicateCartIds(List<CartRequest.UpdateDTO> requestDTOs){
         // 2. cartId:1, cartId:1 이렇게 requestDTOs에 동일한 장바구니 아이디가 두번 들어오면 예외처리
         Set<Integer> uniqueRequestDTOs = new HashSet<>();
         for(CartRequest.UpdateDTO requestDTO : requestDTOs){
@@ -117,7 +117,7 @@ public class CartService {
         }
     }
 
-    private void throwInvalidCartId(boolean found){
+    private void checkForInvalidCartId(boolean found){
         // 3. 유저 장바구니에 없는 cartId가 들어오면 예외처리
         if(!found){
             throw new Exception400("해당 장바구니가 없습니다.");
